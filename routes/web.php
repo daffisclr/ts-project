@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +20,18 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Admin Middleware
+Route::middleware(['auth', 'role:admin'])->group(function(){
+
+    // Admin Dashboard
+    Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+});
+
+// Alumni Middleware
+Route::middleware(['auth', 'role:alumni'])->group(function(){
+
+    // Alumni Dashboard
+    Route::get('alumni/dashboard', [AlumniController::class, 'AlumniDashboard'])->name('alumni.dashboard');
+});
+
